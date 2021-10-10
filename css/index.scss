@@ -180,15 +180,16 @@ body{
 
                     }
                 }
-                &-image{
+                &-images{
                     height: 614px;
                     width: 614px;
-                    background-image: url(../img/post.jpg);
-                    background-repeat: no-repeat;
-                    background-position: center;
                     overflow: hidden;
-                    object-fit: cover;
                     border-bottom: 1px solid rgb(219, 219, 219);
+                    & .post-image{
+                        height: 614px;
+                        width: 614px;
+                        object-fit: cover;
+                    }
                 }
                 &-interaction-area{
                     width: 614px;
