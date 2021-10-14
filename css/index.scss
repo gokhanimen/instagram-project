@@ -61,6 +61,7 @@ body{
         }
     }
     & .button-group{
+        display: flex;
         & .header-btn {
             margin-right: 10px;
             margin-left: 10px;
@@ -114,6 +115,7 @@ body{
                             & .story-area-user-img{
                                 height: 60px;
                                 width: 60px;
+                                object-fit: cover;
                                 border-radius: 50%;
                                 border: 2px solid #fff;
                                 box-sizing: content-box;
@@ -165,6 +167,7 @@ body{
                             & .post-area-user-img{
                                 height: 35px;
                                 width: 35px;
+                                object-fit: cover;
                                 border-radius: 50%;
                                 border: 2px solid #fff;
                                 box-sizing: content-box;
@@ -216,6 +219,7 @@ body{
                     & img{
                         height: 20px;
                         width: 20px;
+                        object-fit: cover;
                         border-radius: 50%;
                         margin-right: 10px;
                     }
@@ -353,6 +357,7 @@ body{
                     height: 50px;
                     width: 50px;
                     border-radius: 50%;
+                    object-fit: cover;
                 }
                 & .other-account-desc{
                     & a{
