@@ -1,0 +1,206 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    user-select: none;
+    list-style: none;
+}
+
+.container{
+    width: 935px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+body{
+    background-color: #FAFAFA;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 50px 0;
+}
+
+.home-section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin-bottom: 40px;
+    & .phone-display{
+        position: relative;
+        height: 618px;
+        width: 454px;
+        background-image: url(../img/instagram-login-background.png);
+        background-position: center;
+        object-fit: cover;
+        & img{
+            position:absolute;
+            top: 100px;
+            right: 62.5px;
+            height: 427px;
+            width: 240px;
+        }
+    }
+    & .sign-area{
+        & .sign-in-area{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 400px;
+            width: 350px;
+            background-color: #fff;
+            border: 1px solid rgba(var(--b6a,219,219,219),1);
+            border-radius: 3px;
+            margin-bottom: 10px;
+            & img{
+                height: 51px;
+                width: 175px;
+                margin-top: 40px;
+                margin-bottom: 40px;
+                object-fit: cover;
+            }
+            & input{
+                height: 38px;
+                width: 268px;
+                border: none;
+                margin-bottom: 10px;
+                padding: 5px;
+                color: rgb(100, 100, 100);
+                border: 1px solid rgba(var(--b6a,219,219,219),1);
+                background-color: rgb(241, 240, 240);
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-weight: 400;
+                font-size: 13px;
+                outline: none;
+                user-select: auto;
+            }
+            & button{
+                height: 30px;
+                width: 268px;
+                background-color: #0095F6;
+                border: none;
+                border-radius: 3px;
+                color: #fff;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-weight: 600;
+                font-size: 15px;
+                cursor: pointer;
+                margin-bottom: 20px;
+            }
+            & .login-area-or{
+                position: relative;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-weight: 400;
+                font-size: 14px;
+                color: rgba(var(--f52,142,142,142),1);
+                margin-bottom: 30px;
+                &::after{
+                    position: absolute;
+                    content: "";
+                    top: 50%;
+                    left: 35px;
+                    height: 1px;
+                    width: 107px;
+                    background-color: rgba(var(--f52,142,142,142),1);
+                }
+                &::before{
+                    position: absolute;
+                    content: "";
+                    top: 50%;
+                    right: 35px;
+                    height: 1px;
+                    width: 107px;
+                    background-color: rgba(var(--f52,142,142,142),1);
+                }
+            }
+            & .facebook-login{
+                display: flex;
+                height: 20px;
+                align-items: center;
+                margin-bottom: 20px;
+                & img{
+                    height: 16px;
+                    width: 16px;
+                    object-fit: cover;
+                    margin-right: 10px;
+                }
+                & p{
+                    color: #385185;
+                }
+            }
+            & .forgot-password{
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-weight: 400;
+                font-size: 12px;
+                color: #385185;
+            }
+        }
+        & .sign-up-area{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 63px;
+            width: 350px;
+            background-color: #fff;
+            border: 1px solid rgba(var(--b6a,219,219,219),1);
+            border-radius: 3px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #385185;
+        }
+        & .get-app{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 101.5px;
+            width: 350px;
+            & p{
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                font-weight: 400;
+                font-size: 13px;
+                margin-bottom: 15px;
+            }
+            & img{
+                height: 40px;
+                width: 136px;
+                &:nth-last-child(1){
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+}
+
+.tags{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    & .support-tags{
+    display: flex;
+    margin-bottom: 10px;
+    & a{
+        color: rgba(var(--f52,142,142,142),1);
+        &:nth-last-child(n){
+            margin-right: 10px;
+        }
+    }
+    }
+    & .content-tags{
+        display: flex;
+        margin-bottom: 10px;
+        & a{
+            color: rgba(var(--f52,142,142,142),1);
+            &:nth-last-child(n){
+                margin-right: 10px;
+            }
+        }
+    }
+    & .copyright{
+        color: rgba(var(--f52,142,142,142),1);
+    }
+}
