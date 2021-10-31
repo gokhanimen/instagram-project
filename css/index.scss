@@ -281,7 +281,14 @@ body{
                     }
                 }
             }
-
+            & .swiper-button{
+                &-prev{
+                    display: none;
+                }
+                &-next{
+                    display: none;
+                }
+            }
         }
         & .post-area{
             display: flex;
