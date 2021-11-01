@@ -228,6 +228,13 @@ body{
     padding-top: 40px;
     & .user-info-wrapper{
         display: flex;
+        & input{
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+            opacity: 0;
+            visibility: hidden;
+        }
     }
     & .profile{
         &-photo-wrapper{
@@ -242,6 +249,7 @@ body{
             width: 150px;
             border-radius: 50%;
             object-fit: cover;
+            cursor: pointer;
         }
     }
     & .user{
@@ -318,20 +326,32 @@ body{
     }
 
     .profile-tabs{
-        height: 40px;
         display: flex;
         justify-content: space-evenly;
+        position: relative;
         border-top: 1px solid rgba(var(--ca6,219,219,219),1);
-        & a{
-            width: 80px;
-            display: flex;
+        & label{
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            height: 40px;
+            padding: 10px 20px;
             border-top: 1px solid transparent;
-            transition: all ease-in .2s;
-            &:hover{
-                border-top: 1px solid #000;
-                transition: all ease-out .2s;
+            cursor: pointer;
+        }
+        & input{
+            position: absolute;
+            z-index: -1;
+            top: -9999px;
+            left: -9999px;
+            opacity: 0;
+            visibility: hidden;
+            &:checked + label{
+                border-top: 1px solid #000;                
+                & + .user-tabs-wrapper{
+                    display: flex;
+                    z-index: 2;
+                }
             }
         }
         &-post-img{
@@ -358,30 +378,17 @@ body{
         }
     }
 
-    // post alanı
-
-    & .user-post-wrapper{
-        display: flex; //flex
+    & .user-tabs-wrapper{
+        position: absolute;
+        left: 0;
+        top: 40px;
+        display: none; 
         flex-wrap: wrap;
         column-gap: 28px;
         row-gap: 30px;
-        margin: 15px 0 30px 0;  
-        & img{
-            height: 293px;
-            width: 293px;
-            cursor: pointer;
-            object-fit: cover;
-        }
-    }
-
-    // kaydedilenler alanı 
-
-    & .user-saved-wrapper{
-        display: none; //flex
-        flex-wrap: wrap;
-        column-gap: 28px;
-        row-gap: 30px;
-        margin: 15px 0 30px 0;  
+        margin: 15px 0 30px 0;
+        padding-bottom: 50px;
+        z-index: -1;
         & img{
             height: 293px;
             width: 293px;

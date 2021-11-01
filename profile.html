@@ -108,7 +108,7 @@
                                 </li>
                                 <li>
                                     <img class="option-logo" src="./img/dropdown-setting.png" alt="">
-                                    <a href="./setting.html">Ayarlar</a>
+                                    <a href="./setting.html?edit-tab=edit-profile">Ayarlar</a>
                                 </li>
                                 <li>
                                     <img class="option-logo" src="./img/dropdown-swap.png" alt="">
@@ -125,10 +125,11 @@
     </header>
     <main class="container">
         <section class="main-content">
-            <div class="user-info-wrapper">
-                <div class="profile-photo-wrapper">
+            <form type="POST" class="user-info-wrapper">
+                <input type="file" id="upload-profile-photo">
+                <label for="upload-profile-photo" class="profile-photo-wrapper">
                     <img class="profile-photo" src="./img/header-zuckerberg.jpg" alt="Profile Photo">
-                </div>
+                </label>
     
                 <div class="user-info">
                     <div class="user-name-wrapper">
@@ -164,56 +165,59 @@
                         </p>
                     </div>
                 </div>
-            </div>
+            </form>
 
             <div class="profile-tabs">
-                <a href="#">
+                <input id="post" name="tab" type="radio" data-tab="post" checked>
+                <label for="post">
                     <img class="profile-tabs-post-img" src="./img/post-grid.png" alt="">
                     <p class="profile-tabs-post-title">POSTS</p>
-                </a>
-                <a href="#">
+                </label>
+
+                <div class="user-tabs-wrapper">
+                    <img src="./img/reels10.jpg" alt="User Post">
+                    <img src="./img/reels12.jpg" alt="User Post">
+                    <img src="./img/reels14.jpg" alt="User Post">
+                    <img src="./img/reels7.jpg" alt="User Post">
+                    <img src="./img/reels17.jpg" alt="User Post">
+                    <img src="./img/reels3.jpg" alt="User Post">
+                    <img src="./img/reels5.jpg" alt="User Post">
+                    <img src="./img/reels5.jpg" alt="User Post">
+                    <img src="./img/reels18.jpg" alt="User Post">
+                    <img src="./img/reels16.jpg" alt="User Post">
+                    <img src="./img/reels7.jpg" alt="User Post">
+                    <img src="./img/reels17.jpg" alt="User Post">
+                    <img src="./img/reels3.jpg" alt="User Post">
+                    <img src="./img/reels5.jpg" alt="User Post">
+                    <img src="./img/reels18.jpg" alt="User Post">
+                    <img src="./img/reels16.jpg" alt="User Post">
+                    <img src="./img/reels10.jpg" alt="User Post">
+                    <img src="./img/reels12.jpg" alt="User Post">
+                </div>
+
+                <input id="saved" name="tab" type="radio" data-tab="saved">
+                <label for="saved">
                     <img class="profile-tabs-saved-img" src="./img/profile-ribbon.png" alt="">
                     <p class="profile-tabs-saved-title">SAVED</p>
-                </a>
-            </div>
+                </label>
 
-            <div class="user-post-wrapper">
-                <img src="./img/reels10.jpg" alt="User Post">
-                <img src="./img/reels12.jpg" alt="User Post">
-                <img src="./img/reels14.jpg" alt="User Post">
-                <img src="./img/reels7.jpg" alt="User Post">
-                <img src="./img/reels17.jpg" alt="User Post">
-                <img src="./img/reels3.jpg" alt="User Post">
-                <img src="./img/reels5.jpg" alt="User Post">
-                <img src="./img/reels5.jpg" alt="User Post">
-                <img src="./img/reels18.jpg" alt="User Post">
-                <img src="./img/reels16.jpg" alt="User Post">
-                <img src="./img/reels7.jpg" alt="User Post">
-                <img src="./img/reels17.jpg" alt="User Post">
-                <img src="./img/reels3.jpg" alt="User Post">
-                <img src="./img/reels5.jpg" alt="User Post">
-                <img src="./img/reels18.jpg" alt="User Post">
-                <img src="./img/reels16.jpg" alt="User Post">
-                <img src="./img/reels10.jpg" alt="User Post">
-                <img src="./img/reels12.jpg" alt="User Post">
-            </div>
-
-            <div class="user-saved-wrapper">
-                <img src="./img/reels3.jpg" alt="User Post">
-                <img src="./img/reels5.jpg" alt="User Post">
-                <img src="./img/reels18.jpg" alt="User Post">
-                <img src="./img/reels16.jpg" alt="User Post">
-                <img src="./img/reels10.jpg" alt="User Post">
-                <img src="./img/reels12.jpg" alt="User Post">
-                <img src="./img/reels7.jpg" alt="User Post">
-                <img src="./img/reels17.jpg" alt="User Post">
-                <img src="./img/reels3.jpg" alt="User Post">
-                <img src="./img/reels5.jpg" alt="User Post">
-                <img src="./img/reels18.jpg" alt="User Post">
-                <img src="./img/reels16.jpg" alt="User Post">
-                <img src="./img/reels7.jpg" alt="User Post">
+                <div class="user-tabs-wrapper">
+                    <img src="./img/reels3.jpg" alt="User Post">
+                    <img src="./img/reels5.jpg" alt="User Post">
+                    <img src="./img/reels18.jpg" alt="User Post">
+                    <img src="./img/reels16.jpg" alt="User Post">
+                    <img src="./img/reels10.jpg" alt="User Post">
+                    <img src="./img/reels12.jpg" alt="User Post">
+                    <img src="./img/reels7.jpg" alt="User Post">
+                    <img src="./img/reels17.jpg" alt="User Post">
+                    <img src="./img/reels3.jpg" alt="User Post">
+                    <img src="./img/reels5.jpg" alt="User Post">
+                    <img src="./img/reels18.jpg" alt="User Post">
+                    <img src="./img/reels16.jpg" alt="User Post">
+                </div>
             </div>
         </section>
     </main>
+    <script src="./js/profile-tabs.js"></script>
 </body>
 </html>

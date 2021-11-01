@@ -36,7 +36,7 @@
                     <div class="likes">
                         <label class="header-btn like" data-is-like="true" for="likes">
                             <img src="./img/header-heart.png" alt="Like">
-                        </label>
+                        </label>                           
                         <input name="header-like-input" id="likes" type="checkbox">
                         <div class="likes-dropdown">
                             <div class="likes-dropdown-wrapper">
@@ -129,35 +129,42 @@
             <aside class="side-menu-wrapper">
                 <div class="side-menu-list-wrapper">
                     <ul class="side-menu-list">
+                        <input type="radio" name="edit-tab" id="edit-profile" data-edit-tab="edit-profile" checked>
+                        <label for="edit-profile">
+                            <li class="side-menu-option">
+                                <p>Edit Profile</p>
+                            </li>
+                        </label>
+                        <input type="radio" name="edit-tab" id="change-password" data-edit-tab="change-password">
+                        <label for="change-password">
+                            <li class="side-menu-option">
+                                <p>Change Password</p>
+                            </li>
+                        </label>        
+
                         <li class="side-menu-option">
-                            <a href="#">Edit Profile</a>
+                            <p>Professional Account</p>
                         </li>
                         <li class="side-menu-option">
-                            <a href="#">Change Password</a>
+                            <p>Apps and Websites</p>
                         </li>
                         <li class="side-menu-option">
-                            <a href="#">Professional Account</a>
+                            <p>Email and SMS</p>
                         </li>
                         <li class="side-menu-option">
-                            <a href="#">Apps and Websites</a>
+                            <p>Push Notifications</p>
                         </li>
                         <li class="side-menu-option">
-                            <a href="#">Email and SMS</a>
+                            <p>Manage Contacts</p>
                         </li>
                         <li class="side-menu-option">
-                            <a href="#">Push Notifications</a>
+                            <p>Privacy and Security</p>
                         </li>
                         <li class="side-menu-option">
-                            <a href="#">Manage Contacts</a>
+                            <p>Login Activity</p>
                         </li>
                         <li class="side-menu-option">
-                            <a href="#">Privacy and Security</a>
-                        </li>
-                        <li class="side-menu-option">
-                            <a href="#">Login Activity</a>
-                        </li>
-                        <li class="side-menu-option">
-                            <a href="#">Emails from Instagram</a>
+                            <p>Emails from Instagram</p>
                         </li>
                     </ul>
                 </div>
@@ -174,7 +181,7 @@
             </aside>
 
             <div class="side-menu-content">
-                <div class="edit-profile">
+                <form type="POST" class="edit-profile">
                     <div class="profile-info">
                         <img class="profile-img" src="./img/header-zuckerberg.jpg" alt="">
 
@@ -190,7 +197,7 @@
                             <p class="user-information-title">Name</p>
                         </div>
                         <div class="user-information-desc">
-                            <input class="user-information-desc-title">
+                            <input type="text" class="user-information-desc-title">
                             <p class="user-information-desc-content">
                                 Help people discover your account by using the name you're known by: either your full name, nickname, or business name.
                                 You can only change your name twice within 14 days.
@@ -233,7 +240,7 @@
                             <p class="user-information-title">Email</p>
                         </div>
                         <div class="user-information-desc">
-                            <input class="user-information-desc-title">
+                            <input type="email" class="user-information-desc-title">
                         </div>
                     </div>
                     <div class="user-information">
@@ -241,7 +248,7 @@
                             <p class="user-information-title">Phone Number</p>
                         </div>
                         <div class="user-information-desc">
-                            <input class="user-information-desc-title">
+                            <input type="tel" class="user-information-desc-title">
                         </div>
                     </div>
                     <div class="user-information">
@@ -252,15 +259,15 @@
                             <input class="user-information-desc-title">
                         </div>
                     </div>
-                    <a class="submit-btn" href="#">Submit</a>
-                </div>
+                    <input type="submit" class="submit-btn" value="Submit">
+                </form>
                 <div class="change-password">
                     <div class="change-password-profile-info">
                         <img class="change-password-profile-img" src="./img/header-zuckerberg.jpg" alt="">
 
                         <p class="change-password-profile-name">mark.zuckerberk</p>
                     </div>
-                    <div class="change-password-area">
+                    <form type="POST" class="change-password-area">
                         <div class="change-password-area-old">
                             <p class="change-password-area-old-title">Old Password</p>
                             <input type="password">
@@ -276,11 +283,12 @@
                             <input type="password">
                         </div>
                           
-                        <button class="change-password-area-button">Change Password</button>
-                    </div>
+                        <input type="submit" class="change-password-area-button" value="Change Password">
+                    </form>
                 </div>
             </div>
         </section>
     </main>
+    <script src="./js/edit-profile-tabs.js"></script>
 </body>
 </html>
