@@ -1,7 +1,20 @@
-<?php
-    require_once "./shared/header.php";
-?>
-    
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="icon" href="./img/instagram-logo-16px.png">
+    <link rel="stylesheet" href="./css/shared/config.css?v=<?=time()?>">
+    <link rel="stylesheet" href="./css/shared/header.css?v=<?=time()?>">
+    <link rel="stylesheet" href="./css/reels.css?v=<?=time()?>">
+</head>
+<body>
+    <?php
+        include "./config.php";
+        include "./header.php";
+    ?>
     <main class="container">
         <section class="main-content">
             <div class="flow">
