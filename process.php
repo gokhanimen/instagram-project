@@ -1,3 +1,27 @@
+<?php
+    require_once "config.php";
+    if (isset($_POST["signup_btn"])) {
+        $e_mail = trim($_POST["email"]);
+        $full_name = trim($_POST["fullname"]);
+        $user_name = trim($_POST["username"]);
+        $user_password = md5(trim($_POST["password"]));
+
+        $signup_sql = mysqli_query($connection_string, "SELECT * FROM users WHERE user_name = '$user_name' OR e_mail = '$e_mail'");
+        if (mysqli_num_rows($signup_sql) > 0) {
+            echo "Bu kullanıcı zaten kayıtlı.";
+        }
+        else{
+            $new_add_user_sql = mysqli_query($connection_string, "INSERT INTO users(user_name, full_name, user_password, e_mail) VALUES('".$user_name."', '".$full_name."', '".$user_password."', '".$e_mail."')");
+            
+            if ($new_add_user_sql) {
+                header("Location:login.php");
+            }
+            else{
+                header("Location:sign-up.php");
+            }
+        }
+    }
+
     if (isset($_POST["signin_btn"])) {
         $user_name = trim($_POST["username"]);
         $user_password = md5(trim($_POST["password"])); 
