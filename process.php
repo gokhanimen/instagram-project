@@ -1,3 +1,24 @@
+    if (isset($_POST["signin_btn"])) {
+        $user_name = trim($_POST["username"]);
+        $user_password = md5(trim($_POST["password"])); 
+
+        $signin_sql = mysqli_query($connection_string, "SELECT * FROM users WHERE user_name = '$user_name' AND user_password = '$user_password'");
+        
+        if (mysqli_num_rows($signin_sql) > 0) {
+            $fetch_user_info = mysqli_fetch_array($signin_sql) ; 
+
+            $_SESSION["session_state"] = true;
+            $_SESSION["user_id"] = $fetch_user_info["id"];
+            $_SESSION["user_name"] = $fetch_user_info["user_name"];
+            header("Location:index.php");
+            return;
+        }
+        else{
+            header("Location:login.php");
+            // Login olamadıysa hatayı span içine yaz.
+        }
+    }
+
     if (isset($_POST["settings_update_btn"])) {
         $full_name = trim($_POST["full_name"]);
         $user_name = trim($_POST["user_name"]);
