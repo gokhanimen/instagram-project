@@ -1,24 +1,3 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    user-select: none;
-    list-style: none;
-}
-
-.container{
-    width: 935px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-body{
-    background-color: #FAFAFA;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    padding: 50px 0;
-}
-
 .home-section{
     display: flex;
     align-items: center;
@@ -54,8 +33,8 @@ body{
             & img{
                 height: 51px;
                 width: 175px;
-                margin-top: 40px;
-                margin-bottom: 40px;
+                margin-top: 30px;
+                margin-bottom: 30px;
                 object-fit: cover;
             }
             & input{
@@ -72,6 +51,16 @@ body{
                 font-size: 13px;
                 outline: none;
                 user-select: auto;
+                &[type=submit]{
+                    width: 280px;
+                    background-color: #0095f6;
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                    font-weight: 700;
+                    font-size: 13px;
+                    color: #fff;
+                    border-radius: 5px;
+                    border: 1px solid rgba(var(--b6a,219,219,219),1);
+                }
             }
             & button{
                 height: 30px;
@@ -120,6 +109,7 @@ body{
                 }
             }
             & .facebook-login{
+                text-decoration: none;
                 display: flex;
                 height: 20px;
                 align-items: center;
@@ -131,14 +121,19 @@ body{
                     margin-right: 10px;
                 }
                 & p{
+                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                    font-weight: 400;
+                    font-size: 16px;
                     color: #385185;
                 }
             }
             & .forgot-password{
+                text-decoration: none;
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 font-weight: 400;
                 font-size: 12px;
                 color: #385185;
+                margin-bottom: 20px;
             }
         }
         & .sign-up-area{
@@ -155,6 +150,7 @@ body{
             font-size: 14px;
             color: #385185;
             & a{
+                text-decoration: none;
                 color: #0095f6;
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 font-weight: 600;

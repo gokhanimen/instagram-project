@@ -1,23 +1,3 @@
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    text-decoration: none;
-    user-select: none;
-    list-style: none;
-}
-
-.container{
-    width: 935px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-body{
-    background-color: #FAFAFA;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
 .home-section{
     display: flex;
     flex-direction: column;
@@ -28,7 +8,7 @@ body{
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
         height: 570px;
         width: 350px;
         margin-top: 12px;
@@ -36,6 +16,13 @@ body{
         border: 1px solid rgba(var(--b6a,219,219,219),1);
         padding: 20px 0;
         margin-bottom: 10px;
+        & .sign-up-area-input-wrapper{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
         & .instagram-logo{
             width: 175px;
         }
@@ -73,6 +60,7 @@ body{
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
                 line-height: 18px;
                 color: #fff;
+                text-decoration: none;
                 & .img-container{
                     display: flex;
                     align-items: center;
@@ -131,7 +119,7 @@ body{
             &:nth-child(n){
                 margin-bottom: 6px;
             }
-            &:nth-last-child(3){
+            &[type=password]{
                 margin-bottom: 15px;
             }
         }
@@ -146,26 +134,21 @@ body{
             background-color: #0095f6;
             border-radius: 5px;
             margin-bottom: 20px;
-            & a{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 32px;
-                width: 268px;
-                color: #fff;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-                font-weight: 600;
-                font-size: 14px;
-            }
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
         }
 
         & .instagram-policy{
             height: 32px;
             width: 268px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             text-align: center;
             color: rgba(var(--f52,142,142,142),1);
             font-size: 12px;
             line-height: 16px;
+            font-weight: 400;
         }
     }
     & .have-an-account{

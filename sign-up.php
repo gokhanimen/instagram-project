@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./img/instagram-logo-16px.png">
-    <link rel="stylesheet" href="./css/sign-up.css">
+    <link rel="stylesheet" href="./css/shared/config.css?v=<?=time()?>">
+    <link rel="stylesheet" href="./css/sign-up.css?v=<?=time()?>">
     <title>Instagram</title>
 </head>
 <body>
@@ -29,24 +30,21 @@
 
                 <p class="login-area-or">OR</p>
 
-                <input type="text" placeholder="Email">
-                <input type="text" placeholder="Full Name">
-                <input type="text" placeholder="Username">
-                <input type="password" placeholder="Password">
+                <form class="sign-up-area-input-wrapper" action="process.php" method="POST">
+                    <input type="text" name="email" placeholder="Email">
+                    <input type="text" name="fullname" placeholder="Full Name">
+                    <input type="text" name="username" placeholder="Username">
+                    <input type="password" name="password" placeholder="Password">
 
-                <button class="sign-up-btn">
-                    <a href="#">
-                        Sign up
-                    </a>
-                </button>
+                    <input type="submit" name="signup_btn" class="sign-up-btn" value="Sign up">
+                </form>
 
                 <p class="instagram-policy">
                     By signing up, you agree to our Terms , Data Policy and Cookies Policy.
                 </p>
             </div>
             <div class="have-an-account">
-                <p>Don't have an account? <a href="./login.html">Log in</a></p> 
-                <!-- a tagının href'i login olarak değiştirilecek -->
+                <p>Don't have an account? <a href="./login.php">Log in</a></p> 
             </div>
             <div class="get-app">
                 <p>Get the app.</p>

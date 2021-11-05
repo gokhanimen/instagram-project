@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="./img/instagram-logo-16px.png">
-    <link rel="stylesheet" href="./css/login.css">
+    <link rel="stylesheet" href="./../css/shared/config.css?v=<?=time()?>">
+    <link rel="stylesheet" href="./css/login.css?v=<?=time()?>">
     <title>Instagram</title>
 </head>
 <body>
@@ -15,22 +16,20 @@
                 <img src="./img/login-phone-background.jpg" alt="Instagram Login Background">
             </div>
             <div class="sign-in-wrapper">
-                <div class="sign-in-area">
+                <form action="process.php" method="POST" class="sign-in-area">
                     <img src="./img/login-instagram-logo.png" alt="Instagram Logo">
-                    <input type="email" placeholder="Phone number, username, or email">
-                    <input type="password" placeholder="Password">
-                    <button>
-                        <a href="./index.html">Log In</a>
-                    </button>
+                    <input type="text" name="username" placeholder="Username">
+                    <input type="text" name="password" placeholder="Password">
+                    <input type="submit" name="signin_btn" value="Log In">
                     <p class="login-area-or">OR</p>
                     <a href="#" class="facebook-login">
                         <img src="./img/facebook-logo.png" alt="Facebook Logo">
                         <p>Log in with Facebook</p>
                     </a>
                     <a class="forgot-password" href="#">Forgot password?</a>
-                </div>
+                </form>
                 <div class="sign-up-area">
-                    <p>Don't have an account? <a href="./sign-up.html">Sign up</a></p>
+                    <p>Don't have an account? <a href="./sign-up.php">Sign up</a></p>
                 </div>
                 <div class="get-app">
                     <p>Get the app.</p>
