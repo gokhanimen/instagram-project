@@ -1,6 +1,25 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="icon" href="./img/instagram-logo-16px.png">
+    <link rel="stylesheet" href="./css/shared/config.css?v=<?=time()?>">
+    <link rel="stylesheet" href="./css/shared/header.css?v=<?=time()?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.3/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.3/js/swiper.min.js"></script>
+    <link rel="stylesheet" href="./css/index.css?v=<?=time()?>">
+</head>
+<body>
 <?php
-    require_once "./shared/header.php";
-?>
+    require_once "./config.php";
+    if (isset($_SESSION["session_state"])) {
+        require_once "./header.php";
+
+        $get_user_profile_info_sql = mysqli_query($connection_string, "SELECT * FROM users WHERE user_name = '".$_SESSION["user_name"]."' ");
+        $get_user_profile_info = mysqli_fetch_array($get_user_profile_info_sql); ?>
     <main class="container">
         <section class="main-content">
             <div class="flow">
@@ -10,7 +29,7 @@
                             <div class="swiper-slide">
                                 <a href="#">
                                     <div class="user-img-border">
-                                        <img class="story-area-user-img" src="./img/header-zuckerberg.jpg" alt="Mark Zuckerberg">
+                                        <img class="story-area-user-img" src="<?=$get_user_profile_info["profile_photo"]?>" alt="Mark Zuckerberg">
                                     </div>
                                     <p class="story-area-username">mark.zuckerberg</p>
                                 </a>
@@ -503,20 +522,20 @@
             <aside class="follow-area-wrapper">
                 <div class="follow-area">
                     <div class="profile-info">
-                        <img class="profile-info-img" src="./img/header-zuckerberg.jpg" alt="Profile Photo">
+                        <img class="profile-info-img" src="<?=$get_user_profile_info["profile_photo"]?>" alt="Profile Photo">
         
                         <div class="profile">
                             <a href="#">mark.zuckerberg</a>
                             <p>Mark Zuckerberg</p>
                         </div>
         
-                        <a class="profile-change" href="#">Geçiş Yap</a>
+                        <a class="profile-change" href="#">Switch</a>
                     </div>
     
                     <div class="other-accounts">
                         <div class="other-accounts-title">
-                            <p>Senin İçin Öneriler</p>
-                            <a href="#">Tümünü Gör</a>
+                            <p>Suggestions For You</p>
+                            <a href="#">See All</a>
                         </div>
                         <div class="other-account">
                             <div class="other-acoount-user-info">
@@ -527,7 +546,7 @@
                                 </div>
                             </div>
         
-                            <a class="other-account-follow" href="#">Takip Et</a>
+                            <a class="other-account-follow" href="#">Follow</a>
                         </div>
                         <div class="other-account">
                             <div class="other-acoount-user-info">
@@ -538,7 +557,7 @@
                                 </div>
                             </div>
         
-                            <a class="other-account-follow" href="#">Takip Et</a>
+                            <a class="other-account-follow" href="#">Follow</a>
                         </div>
                         <div class="other-account">
                             <div class="other-acoount-user-info">
@@ -549,7 +568,7 @@
                                 </div>
                             </div>
         
-                            <a class="other-account-follow" href="#">Takip Et</a>
+                            <a class="other-account-follow" href="#">Follow</a>
                         </div>
                         <div class="other-account">
                             <div class="other-acoount-user-info">
@@ -560,7 +579,7 @@
                                 </div>
                             </div>
         
-                            <a class="other-account-follow" href="#">Takip Et</a>
+                            <a class="other-account-follow" href="#">Follow</a>
                         </div>
                         <div class="other-account">
                             <div class="other-acoount-user-info">
@@ -571,28 +590,32 @@
                                 </div>
                             </div>
         
-                            <a class="other-account-follow" href="#">Takip Et</a>
+                            <a class="other-account-follow" href="#">Follow</a>
                         </div>
                     </div>
     
                     <div class="tags">
-                        <a href="#">Hakkında <div class="point"></div></a>
-                        <a href="#">Yardım <div class="point"></div></a>
-                        <a href="#">Basın <div class="point"></div></a>
+                        <a href="#">About <div class="point"></div></a>
+                        <a href="#">Help <div class="point"></div></a>
+                        <a href="#">Press <div class="point"></div></a>
                         <a href="#">API <div class="point"></div></a>
-                        <a href="#">İş Fırsatları <div class="point"></div></a>
-                        <a href="#">Gizlilik <div class="point"></div></a>
-                        <a href="#">Koşullar <div class="point"></div></a>
-                        <a href="#">Konumlar <div class="point"></div></a>
-                        <a href="#">Başlıca Hesaplar <div class="point"></div></a>
-                        <a href="#">Konu Etiketleri <div class="point"></div></a>
-                        <a href="#">Dil</a>
+                        <a href="#">Job <div class="point"></div></a>
+                        <a href="#">Privacy <div class="point"></div></a>
+                        <a href="#">Terms <div class="point"></div></a>
+                        <a href="#">Locations <div class="point"></div></a>
+                        <a href="#">Top Accounts <div class="point"></div></a>
+                        <a href="#">Hashtags <div class="point"></div></a>
+                        <a href="#">Language</a>
                     </div>
-                    <p class="copyright">© 2021 INSTAGRAM FROM FACEBOOK</p>
+                    <p class="copyright">© 2021 INSTAGRAM FROM META</p>
                 </div>
             </aside>
         </section>
     </main>
     <script src="./js/story.js"></script>
+    <?php }
+    else {
+        header("Location:login.php");
+    } ?>
 </body>
 </html>
