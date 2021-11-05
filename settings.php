@@ -1,7 +1,14 @@
 <?php
-    require_once "./shared/header.php";
-?>
+    require_once "./config.php";
+    if (isset($_SESSION["session_state"])) {
+        require_once "./header.php";
 
+        $get_user_profile_info_sql = mysqli_query($connection_string, "SELECT * FROM users WHERE user_name = '".$_SESSION["user_name"]."' ");
+        $get_user_profile_info = mysqli_fetch_array($get_user_profile_info_sql);?>
+
+<link rel="stylesheet" href="./css/settings.css?v=<?=time()?>">
+<link rel="stylesheet" href="./css/shared/header.css?v=<?=time()?>">
+<link rel="stylesheet" href="./css/shared/config.css?v=<?=time()?>">
     <main class="container">
         <section class="main-content">
             <aside class="side-menu-wrapper">
@@ -59,12 +66,12 @@
             </aside>
 
             <div class="side-menu-content">
-                <form type="POST" class="edit-profile">
+                <form method="POST" class="edit-profile" action="process.php">
                     <div class="profile-info">
-                        <img class="profile-img" src="./img/header-zuckerberg.jpg" alt="">
+                        <img class="profile-img" src="<?=$get_user_profile_info["profile_photo"]?>" alt="">
 
                         <div class="profile-title">
-                            <p class="profile-name">mark.zuckerberk</p>
+                            <p class="profile-name"><?=$get_user_profile_info["user_name"]?></p>
                             <p class="profile-photo-change">
                                 Change Profile Photo
                             </p>
@@ -75,7 +82,7 @@
                             <p class="user-information-title">Name</p>
                         </div>
                         <div class="user-information-desc">
-                            <input type="text" class="user-information-desc-title">
+                            <input type="text" class="user-information-desc-title" name="full_name" value="<?=$get_user_profile_info["full_name"]?>">
                             <p class="user-information-desc-content">
                                 Help people discover your account by using the name you're known by: either your full name, nickname, or business name.
                                 You can only change your name twice within 14 days.
@@ -87,7 +94,7 @@
                             <p class="user-information-title">Username</p>
                         </div>
                         <div class="user-information-desc">
-                            <input class="user-information-desc-title">
+                            <input class="user-information-desc-title" name="user_name" value="<?=$get_user_profile_info["user_name"]?>">
                             <p class="user-information-desc-content">
                                 In most cases, you'll be able to change your username back to shenifyart for another 14 days. <a href="#">Learn More</a>
                             </p>
@@ -98,7 +105,7 @@
                             <p class="user-information-title">Website</p>
                         </div>
                         <div class="user-information-desc">
-                            <input class="user-information-desc-title">
+                            <input class="user-information-desc-title" name="website" value="<?=$get_user_profile_info["website"]?>">
                         </div>
                     </div>
                     <div class="user-information">
@@ -106,7 +113,7 @@
                             <p class="user-information-title">Bio</p>
                         </div>
                         <div class="user-information-desc">
-                            <textarea class="user-information-desc-textarea" name="deneme" id="deneme"></textarea>
+                            <textarea class="user-information-desc-textarea" name="biography"><?=$get_user_profile_info["biography"]?></textarea>
                             <p class="user-information-desc-content">
                                 Personal Information
                                 Provide your personal information, even if the account is used for a business, a pet or something else. This won't be a part of your public profile.
@@ -118,7 +125,7 @@
                             <p class="user-information-title">Email</p>
                         </div>
                         <div class="user-information-desc">
-                            <input type="email" class="user-information-desc-title">
+                            <input type="email" class="user-information-desc-title" name="e_mail" value="<?=$get_user_profile_info["e_mail"]?>">
                         </div>
                     </div>
                     <div class="user-information">
@@ -126,7 +133,7 @@
                             <p class="user-information-title">Phone Number</p>
                         </div>
                         <div class="user-information-desc">
-                            <input type="tel" class="user-information-desc-title">
+                            <input type="tel" class="user-information-desc-title" name="phone_number" value="<?=$get_user_profile_info["phone_number"]?>">
                         </div>
                     </div>
                     <div class="user-information">
@@ -134,39 +141,44 @@
                             <p class="user-information-title">Gender</p>
                         </div>
                         <div class="user-information-desc">
-                            <input class="user-information-desc-title">
+                            <input class="user-information-desc-title" name="gender" value="<?=$get_user_profile_info["gender"]?>">
                         </div>
                     </div>
-                    <input type="submit" class="submit-btn" value="Submit">
+                    <input type="submit" class="submit-btn" name="settings_update_btn" value="Submit">
                 </form>
                 <div class="change-password">
                     <div class="change-password-profile-info">
                         <img class="change-password-profile-img" src="./img/header-zuckerberg.jpg" alt="">
 
-                        <p class="change-password-profile-name">mark.zuckerberk</p>
+                        <p class="change-password-profile-name"><?=$get_user_profile_info["user_name"]?></p>
                     </div>
-                    <form type="POST" class="change-password-area">
+                    <form method="POST" class="change-password-area" action="process.php">
                         <div class="change-password-area-old">
                             <p class="change-password-area-old-title">Old Password</p>
-                            <input type="password">
+                            <input type="text" name="old_password_input">
                         </div>
                         
                         <div class="change-password-area-new">
                             <p class="change-password-area-new-title">New Password</p>
-                            <input type="password">
+                            <input type="text" name="new_password_input">
                         </div>
 
                         <div class="change-password-area-confirm">
                             <p class="change-password-area-confirm-title">Confirm New Password</p>
-                            <input type="password">
+                            <input type="text" name="renew_password_input">
                         </div>
                           
-                        <input type="submit" class="change-password-area-button" value="Change Password">
+                        <input type="submit" class="change-password-area-button" value="Change Password" name="change_password_btn">
                     </form>
                 </div>
             </div>
         </section>
     </main>
     <script src="./js/edit-profile-tabs.js"></script>
+    <?php } 
+        else {
+            header("Location:login.php");
+        }
+    ?>
 </body>
 </html>
