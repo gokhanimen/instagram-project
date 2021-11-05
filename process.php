@@ -63,3 +63,51 @@
             }
         }
     }
+
+    if (isset($_POST["post_upload_btn"])) {
+        if ($_FILES["upload_post"]["size"] < 1024*1024*1024*1024) {
+            if ($_FILES["upload_post"]["type"] == "image/jpeg" || $_FILES["upload_post"]["type"] == "image/png" || $_FILES["upload_post"]["type"] == "image/gif") {
+                $file_name = $_FILES["upload_post"]["name"];
+                $extention = substr($file_name, -4, 4);
+                $generate_name = array("xy", "xx","zt", "yy", "zz");
+                $random_number = rand(1, 10000);
+                $new_file_name = $generate_name[rand(0, 4)].$random_number.$extention;
+                $new_path = "./img/share/".$new_file_name;
+
+                if (move_uploaded_file($_FILES["upload_post"]["tmp_name"], $new_path)) {
+                    $post_description = $_POST["post_description"];
+                    $post_location = $_POST["post_location"];
+                    $post_date = date("F j, g:i a");
+
+                    $post_upload_sql = mysqli_query($connection_string, "INSERT INTO posts(
+                            post_description, 
+                            post_location, 
+                            post_date, 
+                            post_img_path, 
+                            user_id
+                        ) 
+                        VALUES(
+                            '".$post_description."', 
+                            '".$post_location."', 
+                            '".$post_date."', 
+                            '".$new_path."', 
+                            '".$_SESSION["user_id"]."')
+                        ");
+
+                        if ($post_upload_sql) {
+                            header("Location:index.php");
+                        }
+                        else{
+                            echo "Gönderi paylaşılamadı!";
+                        }
+                } else {
+                    echo "Dosya taşınamadı!";
+                }
+            } else {
+                echo "Yüklenilecek dosya türü geçersizdir!";
+            }
+        } else {
+            echo "2MB'den küçük dosya yükleyiniz!";
+        }
+    }
+?>
