@@ -216,4 +216,37 @@
             }
         }
     }
+
+    if (isset($_POST["post_comment_btn"])) {
+        $post_comment = $_POST["post_comment"];
+        $post_id = $_POST["post_id"];
+
+        // Yorum
+        $add_new_comment_sql = mysqli_query($connection_string, "INSERT INTO comments(post_comment, post_id, user_id) VALUES('".$post_comment."', '".$post_id."', '".$_SESSION["user_id"]."')");
+        
+        if ($add_new_comment_sql) {
+            header("Location:index.php");
+        }
+    }
+
+    if (isset($_POST["post_saved_btn"])) {
+        $post_id = $_POST["post_id"];
+
+        $saved_control_sql = mysqli_query($connection_string, "SELECT * FROM saved WHERE post_id = '$post_id' AND user_id = ".$_SESSION["user_id"]."");
+        if (mysqli_num_rows($saved_control_sql)) {
+            // saved'ı Kaldır
+            $unsaved_sql = mysqli_query($connection_string, "DELETE FROM saved WHERE post_id = '$post_id' AND user_id = ".$_SESSION["user_id"]."");
+            
+            header("Location:index.php");
+        }
+        else {
+            // Saved
+            $add_new_saved_sql = mysqli_query($connection_string, "INSERT INTO saved(post_id, user_id) VALUES('".$post_id."', '".$_SESSION["user_id"]."')");
+            
+            if ($add_new_saved_sql) {
+                header("Location:index.php");
+            }
+        }
+        
+    }
 ?>

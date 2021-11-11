@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="post-user-info-group">
                                         <p class="post-area-username"><?=$fetch_following_info["user_name"]?></p>
-                                        <p class="post-area-postdate"><?=$fetch_following_info["post_date"]?></p>
+                                        <p class="post-area-postdate"><?=$fetch_following_info["full_name"]?></p>
                                     </div>  
                                 </a>
                             </div>
@@ -197,9 +197,22 @@
                                 </a>
                             </div>
                             <div class="saved-area">
-                                <a href="#">
-                                    <img class="post-ribbon" src="./img/ribbon.png" alt="">
-                                </a>
+                            <?php 
+                                    $saved_control_sql = mysqli_query($connection_string, "SELECT * FROM saved WHERE post_id = ".$fetch_following_info["post_id"]." AND user_id = ".$_SESSION["user_id"]."");
+                                    if (mysqli_num_rows($saved_control_sql)) { ?>
+                                        <form action="process.php" method="POST">
+                                            <input type="text" value="<?=$fetch_following_info["post_id"]?>" name="post_id" hidden>
+                                            <input type="submit" name="post_saved_btn" value="saved">
+                                            <img class="post-ribbon" src="./img/fill-ribbon.png" alt="">
+                                        </form>
+                                    <?php } else { ?>
+                                        <form action="process.php" method="POST">
+                                            <input type="text" value="<?=$fetch_following_info["post_id"]?>" name="post_id" hidden>
+                                            <input type="submit" name="post_saved_btn" value="saved">
+                                            <img class="post-ribbon" src="./img/ribbon.png" alt="">
+                                        </form>
+                                <?php } ?>
+
                             </div>
                         </div>
                             
@@ -221,36 +234,24 @@
 
                         <div class="post-comment-area">
                             <div class="post-user-comment">
+                                <img src="<?=$fetch_following_info["profile_photo"]?>" alt=""> 
                                 <p class="post-desc"><b><?=$fetch_following_info["user_name"]?></b> <?=$fetch_following_info["post_description"]?></p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
                             </div>
 
-                            <div class="post-user-comment">
-                                <p class="all-comment">10 yorumun tümünü gör</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p><b>promig0002</b> Love it <a href="#">@dailydose</a></p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p><b>nftgallery</b> Amazing</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
+                            <?php 
+                                $fetch_post_comment_sql = mysqli_query($connection_string, "SELECT * FROM comments JOIN posts ON comments.post_id = posts.post_id JOIN users ON users.id = comments.user_id WHERE comments.post_id = ".$fetch_following_info["post_id"]." ");
+                                while ($fetch_post_comment = mysqli_fetch_array($fetch_post_comment_sql)) { ?>
+                                
+                                <div class="post-user-comment">
+                                    <img src="<?=$fetch_post_comment["profile_photo"]?>" alt=""> 
+                                    <!-- düzeltilecek scss -->
+                                    <p> <a href="profile.php?id=<?=$fetch_post_comment["id"]?>&tab=post"><b><?=$fetch_post_comment["user_name"]?></b></a> <?=$fetch_post_comment["post_comment"]?></p>
+                                </div>
+                            <?php } ?>
                         </div>
 
                         <div class="post-time">
-                            <p>28 DAKİKA ÖNCE</p>
+                            <p><?=$fetch_following_info["post_date"]?></p>
                         </div>
 
                         <div class="post-text-area">
@@ -258,11 +259,12 @@
                                 <img class="emoji" src="./img/emoji.png" alt="">
                             </a>
 
-                            <form action="#">
-                                <input placeholder="Yorum Ekle..." type="text">
+                            <form action="process.php" method="POST">
+                                <input placeholder="Yorum Ekle..." type="text" name="post_comment">
+                                <input type="text" name="post_id" value="<?=$fetch_following_info["post_id"]?>" hidden>
+                                <input type="submit" class="post-text-area-send" value="Paylaş" name="post_comment_btn">
                             </form>
 
-                            <a class="post-text-area-send" href="#">Paylaş</a>
                         </div>
                     </div>
                     <?php } ?>

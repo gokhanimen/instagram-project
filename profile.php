@@ -22,7 +22,8 @@
                 $get_user_profile_info = mysqli_fetch_array($get_user_profile_info_sql);
             }
             
-            $get_user_post_sql = mysqli_query($connection_string, "SELECT * FROM posts WHERE user_id = '".$_GET["id"]."' ORDER BY post_id DESC "); ?>
+            $get_user_post_sql = mysqli_query($connection_string, "SELECT * FROM posts WHERE user_id = '".$_GET["id"]."' ORDER BY post_id DESC"); 
+            $get_user_saved_sql = mysqli_query($connection_string, "SELECT * FROM saved JOIN posts ON posts.post_id = saved.post_id WHERE posts.user_id = '".$_GET["id"]."' ORDER BY saved.saved_id DESC"); ?>
 
             <div class="upload-modal-overlay" data-upload-modal>
                 <img class="upload-modal-overlay-close-btn" src="./img/close.png" alt="" data-upload-modal-close-btn>
@@ -109,18 +110,9 @@
                         </label>
     
                         <div class="user-tabs-wrapper">
-                            <img src="./img/reels3.jpg" alt="User Post">
-                            <img src="./img/reels5.jpg" alt="User Post">
-                            <img src="./img/reels18.jpg" alt="User Post">
-                            <img src="./img/reels16.jpg" alt="User Post">
-                            <img src="./img/reels10.jpg" alt="User Post">
-                            <img src="./img/reels12.jpg" alt="User Post">
-                            <img src="./img/reels7.jpg" alt="User Post">
-                            <img src="./img/reels17.jpg" alt="User Post">
-                            <img src="./img/reels3.jpg" alt="User Post">
-                            <img src="./img/reels5.jpg" alt="User Post">
-                            <img src="./img/reels18.jpg" alt="User Post">
-                            <img src="./img/reels16.jpg" alt="User Post">
+                            <?php while ($saved = mysqli_fetch_array($get_user_saved_sql)) { ?>
+                                <img src="<?=$saved["post_img_path"]?>" alt="User Saved">  
+                            <?php } ?>
                         </div>
                     <?php } ?>
                 </div>
