@@ -8,6 +8,7 @@
     <link rel="icon" href="./img/instagram-logo-16px.png">
     <link rel="stylesheet" href="./css/shared/config.css?v=<?=time()?>">
     <link rel="stylesheet" href="./css/shared/header.css?v=<?=time()?>">
+    <link rel="stylesheet" href="./css/shared/modal.css?v=<?=time()?>">
     <link rel="stylesheet" href="./css/direct.css?v=<?=time()?>">
 </head>
 <body>
@@ -181,5 +182,6 @@
             </div>
         </section>
     </main>
+    <script src="./js/upload-modal.js"></script>
 </body>
 </html>
