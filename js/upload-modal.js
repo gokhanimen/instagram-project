@@ -1,14 +1,18 @@
-const uploadBtn = document.getElementById("uploadBtn");
-const uploadModal = document.getElementById("uploadModal");
-const uploadModalCloseBtn = document.getElementById("uploadModalCloseBtn");
+let uploadBtn = document.querySelectorAll("[data-upload-btn]");
+let uploadModal = document.querySelectorAll("[data-upload-modal]");
+let uploadModalCloseBtn = document.querySelectorAll("[data-upload-modal-close-btn]");
 
-uploadBtn.addEventListener("click", function () {
-    uploadModal.classList.add("show");
-    document.documentElement.style.overflowY="hidden";
+
+uploadBtn.forEach(function (element, index) {
+    element.addEventListener("click", function () {
+        uploadModal[index].classList.add("show");
+        document.documentElement.style.overflowY="hidden";
+    });  
 });
 
-uploadModalCloseBtn.addEventListener("click", function () {
-    uploadModal.classList.remove("show");
-    document.documentElement.style.overflowY="scroll";
-})
-
+uploadModalCloseBtn.forEach(function (element, index) {
+    element.addEventListener("click", function () {
+        uploadModal[index].classList.remove("show");
+        document.documentElement.style.overflowY="scroll";
+    });
+});
