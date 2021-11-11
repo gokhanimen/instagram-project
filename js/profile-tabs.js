@@ -5,7 +5,7 @@ const saved = document.querySelector(".profile-tabs #saved")
 tab.forEach(function (tabItem) {
     tabItem.addEventListener("click",function(event){
         if (event.target.checked) {
-            window.location.replace("?tab="+ event.target.dataset.tab);
+            window.location.replace("?tab="+ event.target.dataset.tab + "&id=" + event.target.dataset.profileId);
         }
     })
 })

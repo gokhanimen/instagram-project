@@ -8,6 +8,7 @@
     <link rel="icon" href="./img/instagram-logo-16px.png">
     <link rel="stylesheet" href="./css/shared/config.css?v=<?=time()?>">
     <link rel="stylesheet" href="./css/shared/header.css?v=<?=time()?>">
+    <link rel="stylesheet" href="./css/shared/modal.css?v=<?=time()?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.3/css/swiper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.3/js/swiper.min.js"></script>
     <link rel="stylesheet" href="./css/index.css?v=<?=time()?>">
@@ -29,9 +30,9 @@
                             <div class="swiper-slide">
                                 <a href="#">
                                     <div class="user-img-border">
-                                        <img class="story-area-user-img" src="<?=$get_user_profile_info["profile_photo"]?>" alt="Mark Zuckerberg">
+                                        <img class="story-area-user-img" src="<?=$get_user_profile_info["profile_photo"]?>" alt="<?=$get_user_profile_info["full_name"]?>">
                                     </div>
-                                    <p class="story-area-username">mark.zuckerberg</p>
+                                    <p class="story-area-username"><?=$get_user_profile_info["user_name"]?></p>
                                 </a>
                             </div>
                             <div class="swiper-slide">
@@ -145,14 +146,21 @@
                     </div>
                 </div>
                 <div class="post-area">
+                    <?php 
+                        $fetch_following_sql = mysqli_query($connection_string, "SELECT * FROM followers JOIN users ON users.id = followers.following_id JOIN posts ON posts.user_id = followers.following_id WHERE followers.follower_id = ".$_SESSION["user_id"]." ORDER BY posts.post_date DESC");
+                        while ($fetch_following_info = mysqli_fetch_array($fetch_following_sql)){
+                    ?>
                     <div class="post">
                         <div class="post-header">
                             <div class="post-user">
-                                <a href="#">
+                                <a href="profile.php?id=<?=$fetch_following_info["id"]?>">
                                     <div class="user-img-border">
-                                        <img class="post-area-user-img" src="./img/header-zuckerberg.jpg" alt="Mark Zuckerberg">
+                                        <img class="post-area-user-img" src="<?=$fetch_following_info["profile_photo"]?>" alt="<?=$fetch_following_info["full_name"]?>">
                                     </div>
-                                    <p class="post-area-username">mark.zuckerberg</p>
+                                    <div class="post-user-info-group">
+                                        <p class="post-area-username"><?=$fetch_following_info["user_name"]?></p>
+                                        <p class="post-area-postdate"><?=$fetch_following_info["post_date"]?></p>
+                                    </div>  
                                 </a>
                             </div>
 
@@ -162,15 +170,24 @@
                         </div>
 
                         <div class="post-images">
-                            <img class="post-image" src="./img/post.jpg" alt="Post İmage">
+                            <img class="post-image" src="<?=$fetch_following_info["post_img_path"]?>" alt="Post İmage">
                         </div>
 
                         <div class="post-interaction-area">
                             <div class="post-interaction">
-                                <a href="#">
-                                    <img class="post-heart" src="./img/post-heart.png" alt="">
-                                </a>
-
+                                <?php 
+                                    $like_control_sql = mysqli_query($connection_string, "SELECT * FROM likes JOIN users ON users.id = likes.user_id WHERE likes.post_id = ".$fetch_following_info["post_id"]." AND likes.user_id = ".$_SESSION["user_id"]." ORDER BY likes.like_id ASC");
+                                    if (mysqli_num_rows($like_control_sql)) { ?>
+                                    <form method="POST" action="process.php">
+                                        <input type="text" value="<?=$fetch_following_info["post_id"]?>" name="post_id" hidden>
+                                        <input type="submit" name="like_post_btn" class="post-heart fill" value="">
+                                    </form>
+                                <?php } else { ?>
+                                    <form method="POST" action="process.php">
+                                        <input type="text" value="<?=$fetch_following_info["post_id"]?>" name="post_id" hidden>
+                                        <input type="submit" name="like_post_btn" class="post-heart void" value="">
+                                    </form>
+                                <?php } ?>
                                 <a href="#">
                                     <img class="post-comment" src="./img/comment.png" alt="">
                                 </a>
@@ -185,15 +202,26 @@
                                 </a>
                             </div>
                         </div>
-
+                            
+                        <?php 
+                            $fetch_post_like_count_sql = mysqli_query($connection_string, "SELECT COUNT(*) as like_count FROM likes WHERE post_id = ".$fetch_following_info["post_id"]."");
+                            $fetch_post_like_count = mysqli_fetch_array($fetch_post_like_count_sql);
+                        ?>
                         <div class="post-info">
-                            <img src="./img/header-zuckerberg.jpg" alt="">
-                            <p><b>mark.zuckerberg</b> ve <b>121 diğer kişi</b> beğendi</p>
+                            <?php if($fetch_post_like_count["like_count"] > 1){ ?>
+                                <img src="<?=$fetch_following_info["profile_photo"]?>" alt="">
+                                <p><b><?=$fetch_following_info["user_name"]?></b> ve <b><?=$fetch_post_like_count["like_count"] - 1?></b> kişi beğendi</p>
+                            <?php } else if($fetch_post_like_count["like_count"] == 0){ ?>
+                                <p>Henüz beğenen olmadı</p>
+                            <?php } else{ ?>
+                                <img src="<?=$fetch_following_info["profile_photo"]?>" alt="">
+                                <p><b><?=$fetch_following_info["user_name"]?></b> beğendi</p>
+                            <?php } ?>
                         </div>
 
                         <div class="post-comment-area">
                             <div class="post-user-comment">
-                                <p class="post-desc"><b>mark.zuckerberg</b> Caption this...</p>
+                                <p class="post-desc"><b><?=$fetch_following_info["user_name"]?></b> <?=$fetch_following_info["post_description"]?></p>
                                 <a href="#">
                                     <img src="./img/comment-heart.png" alt="">
                                 </a>
@@ -237,285 +265,7 @@
                             <a class="post-text-area-send" href="#">Paylaş</a>
                         </div>
                     </div>
-
-                    <div class="post">
-                        <div class="post-header">
-                            <div class="post-user">
-                                <a href="#">
-                                    <div class="user-img-border">
-                                        <img class="post-area-user-img" src="./img/people4.jpg" alt="Mark Zuckerberg">
-                                    </div>
-                                    <p class="post-area-username">mark.zuckerberg</p>
-                                </a>
-                            </div>
-
-                            <a class="other-option-area" href="#">
-                                <img class="other-option-img" src="./img/other-options.png" alt="Other Option">
-                            </a>
-                        </div>
-
-                        <div class="post-images">
-                            <img class="post-image" src="./img/post2.jpg" alt="Post İmage">
-                        </div>
-
-                        <div class="post-interaction-area">
-                            <div class="post-interaction">
-                                <a href="#">
-                                    <img class="post-heart" src="./img/post-heart.png" alt="">
-                                </a>
-
-                                <a href="#">
-                                    <img class="post-comment" src="./img/comment.png" alt="">
-                                </a>
-
-                                <a href="#">
-                                    <img class="post-send" src="./img/send.png" alt="">
-                                </a>
-                            </div>
-                            <div class="saved-area">
-                                <a href="#">
-                                    <img class="post-ribbon" src="./img/ribbon.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="post-info">
-                            <img src="./img/people4.jpg" alt="">
-                            <p><b>mark.zuckerberg</b> ve <b>121 diğer kişi</b> beğendi</p>
-                        </div>
-
-                        <div class="post-comment-area">
-                            <div class="post-user-comment">
-                                <p class="post-desc"><b>mark.zuckerberg</b> Caption this...</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p class="all-comment">10 yorumun tümünü gör</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p><b>promig0002</b> Love it <a href="#">@dailydose</a></p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p><b>nftgallery</b> Amazing</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="post-time">
-                            <p>28 DAKİKA ÖNCE</p>
-                        </div>
-
-                        <div class="post-text-area">
-                            <a class="emoji-area" href="#">
-                                <img class="emoji" src="./img/emoji.png" alt="">
-                            </a>
-
-                            <form action="#">
-                                <input placeholder="Yorum Ekle..." type="text">
-                            </form>
-
-                            <a class="post-text-area-send" href="#">Paylaş</a>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <div class="post-header">
-                            <div class="post-user">
-                                <a href="#">
-                                    <div class="user-img-border">
-                                        <img class="post-area-user-img" src="./img/people20.jpg" alt="Mark Zuckerberg">
-                                    </div>
-                                    <p class="post-area-username">mark.zuckerberg</p>
-                                </a>
-                            </div>
-
-                            <a class="other-option-area" href="#">
-                                <img class="other-option-img" src="./img/other-options.png" alt="Other Option">
-                            </a>
-                        </div>
-
-                        <div class="post-images">
-                            <img class="post-image" src="./img/post3.jpg" alt="Post İmage">
-                        </div>
-
-                        <div class="post-interaction-area">
-                            <div class="post-interaction">
-                                <a href="#">
-                                    <img class="post-heart" src="./img/post-heart.png" alt="">
-                                </a>
-
-                                <a href="#">
-                                    <img class="post-comment" src="./img/comment.png" alt="">
-                                </a>
-
-                                <a href="#">
-                                    <img class="post-send" src="./img/send.png" alt="">
-                                </a>
-                            </div>
-                            <div class="saved-area">
-                                <a href="#">
-                                    <img class="post-ribbon" src="./img/ribbon.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="post-info">
-                            <img src="./img/people20.jpg" alt="">
-                            <p><b>mark.zuckerberg</b> ve <b>121 diğer kişi</b> beğendi</p>
-                        </div>
-
-                        <div class="post-comment-area">
-                            <div class="post-user-comment">
-                                <p class="post-desc"><b>mark.zuckerberg</b> Caption this...</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p class="all-comment">10 yorumun tümünü gör</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p><b>promig0002</b> Love it <a href="#">@dailydose</a></p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p><b>nftgallery</b> Amazing</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="post-time">
-                            <p>28 DAKİKA ÖNCE</p>
-                        </div>
-
-                        <div class="post-text-area">
-                            <a class="emoji-area" href="#">
-                                <img class="emoji" src="./img/emoji.png" alt="">
-                            </a>
-
-                            <form action="#">
-                                <input placeholder="Yorum Ekle..." type="text">
-                            </form>
-
-                            <a class="post-text-area-send" href="#">Paylaş</a>
-                        </div>
-                    </div>
-                    
-                    <div class="post">
-                        <div class="post-header">
-                            <div class="post-user">
-                                <a href="#">
-                                    <div class="user-img-border">
-                                        <img class="post-area-user-img" src="./img/people19.jpg" alt="Mark Zuckerberg">
-                                    </div>
-                                    <p class="post-area-username">mark.zuckerberg</p>
-                                </a>
-                            </div>
-
-                            <a class="other-option-area" href="#">
-                                <img class="other-option-img" src="./img/other-options.png" alt="Other Option">
-                            </a>
-                        </div>
-
-                        <div class="post-images">
-                            <img class="post-image" src="./img/post4.jpg" alt="Post İmage">
-                        </div>
-
-                        <div class="post-interaction-area">
-                            <div class="post-interaction">
-                                <a href="#">
-                                    <img class="post-heart" src="./img/post-heart.png" alt="">
-                                </a>
-
-                                <a href="#">
-                                    <img class="post-comment" src="./img/comment.png" alt="">
-                                </a>
-
-                                <a href="#">
-                                    <img class="post-send" src="./img/send.png" alt="">
-                                </a>
-                            </div>
-                            <div class="saved-area">
-                                <a href="#">
-                                    <img class="post-ribbon" src="./img/ribbon.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="post-info">
-                            <img src="./img/people19.jpg" alt="">
-                            <p><b>mark.zuckerberg</b> ve <b>121 diğer kişi</b> beğendi</p>
-                        </div>
-
-                        <div class="post-comment-area">
-                            <div class="post-user-comment">
-                                <p class="post-desc"><b>mark.zuckerberg</b> Caption this...</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p class="all-comment">10 yorumun tümünü gör</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p><b>promig0002</b> Love it <a href="#">@dailydose</a></p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-
-                            <div class="post-user-comment">
-                                <p><b>nftgallery</b> Amazing</p>
-                                <a href="#">
-                                    <img src="./img/comment-heart.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="post-time">
-                            <p>28 DAKİKA ÖNCE</p>
-                        </div>
-
-                        <div class="post-text-area">
-                            <a class="emoji-area" href="#">
-                                <img class="emoji" src="./img/emoji.png" alt="">
-                            </a>
-
-                            <form action="#">
-                                <input placeholder="Yorum Ekle..." type="text">
-                            </form>
-
-                            <a class="post-text-area-send" href="#">Paylaş</a>
-                        </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
 
@@ -525,8 +275,8 @@
                         <img class="profile-info-img" src="<?=$get_user_profile_info["profile_photo"]?>" alt="Profile Photo">
         
                         <div class="profile">
-                            <a href="#">mark.zuckerberg</a>
-                            <p>Mark Zuckerberg</p>
+                            <a href="#"><?=$get_user_profile_info["user_name"]?></a>
+                            <p><?=$get_user_profile_info["full_name"]?></p>
                         </div>
         
                         <a class="profile-change" href="#">Switch</a>
@@ -535,63 +285,28 @@
                     <div class="other-accounts">
                         <div class="other-accounts-title">
                             <p>Suggestions For You</p>
-                            <a href="#">See All</a>
+                            <a href="search.php?search_query=+">See All</a>
                         </div>
-                        <div class="other-account">
-                            <div class="other-acoount-user-info">
-                                <img src="./img/people6.jpg" alt="Profile Photo">
-                                <div class="other-account-desc">
-                                    <a href="#">mark.zuckerberg</a>
-                                    <p>New to Instagram</p>
+                        <?php
+                            $fetch_following_sql = mysqli_query($connection_string, "SELECT * FROM users WHERE id NOT IN (SELECT following_id FROM followers WHERE followers.follower_id = ".$_SESSION["user_id"].") LIMIT 5");
+                           
+                            while ($fetch_following_info = mysqli_fetch_array($fetch_following_sql)) {
+                        ?>
+                            <form method="POST" action="process.php" class="other-account">
+                                <div class="other-account-user-info">
+                                    <img src="<?=$fetch_following_info["profile_photo"]?>" alt="Profile Photo">
+                                    <div class="other-account-desc">
+                                        <a href="profile.php?id=<?=$fetch_following_info["id"]?>"><?=$fetch_following_info["user_name"]?></a>
+                                        <a href="profile.php?id=<?=$fetch_following_info["id"]?>"><?=$fetch_following_info["full_name"]?></a>
+
+                                        <input type="text" name="following_id" hidden value="<?=$fetch_following_info["id"]?>">
+                                        <input type="text" name="following_name" hidden value="<?=$fetch_following_info["user_name"]?>">
+                                        <input type="text" name="current_page" hidden value="index.php">
+                                    </div>
                                 </div>
-                            </div>
-        
-                            <a class="other-account-follow" href="#">Follow</a>
-                        </div>
-                        <div class="other-account">
-                            <div class="other-acoount-user-info">
-                                <img src="./img/people5.jpg" alt="Profile Photo">
-                                <div class="other-account-desc">
-                                    <a href="#">mark.zuckerberg</a>
-                                    <p>Follows You</p>
-                                </div>
-                            </div>
-        
-                            <a class="other-account-follow" href="#">Follow</a>
-                        </div>
-                        <div class="other-account">
-                            <div class="other-acoount-user-info">
-                                <img src="./img/people4.jpg" alt="Profile Photo">
-                                <div class="other-account-desc">
-                                    <a href="#">mark.zuckerberg</a>
-                                    <p>New to Instagram</p>
-                                </div>
-                            </div>
-        
-                            <a class="other-account-follow" href="#">Follow</a>
-                        </div>
-                        <div class="other-account">
-                            <div class="other-acoount-user-info">
-                                <img src="./img/people3.jpg" alt="Profile Photo">
-                                <div class="other-account-desc">
-                                    <a href="#">mark.zuckerberg</a>
-                                    <p>Follows You</p>
-                                </div>
-                            </div>
-        
-                            <a class="other-account-follow" href="#">Follow</a>
-                        </div>
-                        <div class="other-account">
-                            <div class="other-acoount-user-info">
-                                <img src="./img/people2.jpg" alt="Profile Photo">
-                                <div class="other-account-desc">
-                                    <a href="#">mark.zuckerberg</a>
-                                    <p>Follows You</p>
-                                </div>
-                            </div>
-        
-                            <a class="other-account-follow" href="#">Follow</a>
-                        </div>
+                                <input type="submit" class="other-account-follow" name="follow_btn" value="Follow">
+                            </form>
+                        <?php } ?>
                     </div>
     
                     <div class="tags">
@@ -613,6 +328,7 @@
         </section>
     </main>
     <script src="./js/story.js"></script>
+    <script src="./js/upload-modal.js"></script>
     <?php }
     else {
         header("Location:login.php");

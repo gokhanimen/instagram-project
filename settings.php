@@ -8,6 +8,7 @@
 
 <link rel="stylesheet" href="./css/settings.css?v=<?=time()?>">
 <link rel="stylesheet" href="./css/shared/header.css?v=<?=time()?>">
+<link rel="stylesheet" href="./css/shared/modal.css?v=<?=time()?>">
 <link rel="stylesheet" href="./css/shared/config.css?v=<?=time()?>">
     <main class="container">
         <section class="main-content">
@@ -175,6 +176,7 @@
         </section>
     </main>
     <script src="./js/edit-profile-tabs.js"></script>
+    <script src="./js/upload-modal.js"></script>
     <?php } 
         else {
             header("Location:login.php");

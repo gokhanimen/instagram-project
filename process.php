@@ -10,8 +10,17 @@
         if (mysqli_num_rows($signup_sql) > 0) {
             echo "Bu kullanıcı zaten kayıtlı.";
         }
-        else{
+        else{           
             $new_add_user_sql = mysqli_query($connection_string, "INSERT INTO users(user_name, full_name, user_password, e_mail) VALUES('".$user_name."', '".$full_name."', '".$user_password."', '".$e_mail."')");
+
+            $user_control_sql = mysqli_query($connection_string, "SELECT * FROM users WHERE user_name = '$user_name' OR e_mail = '$e_mail'");
+            $user_info = mysqli_fetch_array($user_control_sql);
+            $following_id = $user_info["id"];
+            $following_name = $user_info["user_name"];
+            $follower_id = $user_info["id"];
+            $follower_name = $user_info["user_name"];
+
+            $add_own_follower_sql = mysqli_query($connection_string, "INSERT INTO followers(follower_id, follower_name, following_id, following_name) VALUES('".$follower_id."', '".$follower_name."', '".$following_id."', '".$following_name."')");
             
             if ($new_add_user_sql) {
                 header("Location:login.php");
@@ -101,7 +110,7 @@
                 if (move_uploaded_file($_FILES["upload_post"]["tmp_name"], $new_path)) {
                     $post_description = $_POST["post_description"];
                     $post_location = $_POST["post_location"];
-                    $post_date = date("F j, g:i a");
+                    $post_date = date("y.m.d H:i");
 
                     $post_upload_sql = mysqli_query($connection_string, "INSERT INTO posts(
                             post_description, 
@@ -132,6 +141,79 @@
             }
         } else {
             echo "2MB'den küçük dosya yükleyiniz!";
+        }
+    }
+
+    if (isset($_POST["profile_upload_btn"])) {
+        if ($_FILES["profile_upload_photo"]["size"] < 1024*1024*1024*1024) {
+            if ($_FILES["profile_upload_photo"]["type"] == "image/jpeg" || $_FILES["profile_upload_photo"]["type"] == "image/png" || $_FILES["profile_upload_photo"]["type"] == "image/gif") {
+                $file_name = $_FILES["profile_upload_photo"]["name"];
+                $extention = substr($file_name, -4, 4);
+                $generate_name = array("xy", "xx","zt", "yy", "zz");
+                $random_number = rand(1, 10000);
+                $new_file_name = $generate_name[rand(0, 4)].$random_number.$extention;
+                $new_path = "./img/profile-photos/".$new_file_name;
+
+                if (move_uploaded_file($_FILES["profile_upload_photo"]["tmp_name"], $new_path)) {
+
+                    $update_profile_photo_sql = mysqli_query($connection_string, "UPDATE users SET profile_photo = '".
+                    $new_path ."' WHERE user_name = '".$_SESSION["user_name"]."'");
+
+                    if (mysqli_affected_rows($connection_string)) {
+                        header("Location:profile.php?id=".$_SESSION["user_id"]);
+                    }
+                } else {
+                    echo "Dosya taşınamadı!";
+                }
+            } else {
+                echo "Yüklenilecek dosya türü geçersizdir!";
+            }
+        } else {
+            echo "2MB'den küçük dosya yükleyiniz!";
+        }
+    }
+
+    if (isset($_POST["follow_btn"])) {
+        $following_id = $_POST["following_id"];
+        $following_name = $_POST["following_name"];
+        $follower_id = $_SESSION["user_id"];
+        $follower_name = $_SESSION["user_name"];
+        $current_page = $_POST["current_page"];
+
+        $follower_control_sql = mysqli_query($connection_string, "SELECT * FROM followers WHERE following_id = '$following_id' AND follower_id = '$follower_id'");
+        if (mysqli_num_rows($follower_control_sql) > 0) {
+            // Takibi bırak
+            $unfollow_sql = mysqli_query($connection_string, "DELETE FROM followers WHERE following_id = '$following_id' AND follower_id = '$follower_id'");
+            
+            header("Location:".$current_page);
+        }
+        else{
+            // Takip et
+            $add_new_follower_sql = mysqli_query($connection_string, "INSERT INTO followers(follower_id, follower_name, following_id, following_name) VALUES('".$follower_id."', '".$follower_name."', '".$following_id."', '".$following_name."')");
+            
+            if ($add_new_follower_sql) {
+                header("Location:".$current_page);
+            }
+        }
+    }
+
+    if (isset($_POST["like_post_btn"])) {
+        $post_id = $_POST["post_id"];
+
+        $like_control_sql = mysqli_query($connection_string, "SELECT * FROM likes WHERE post_id = '$post_id' AND user_id = ".$_SESSION["user_id"]."");
+        if (mysqli_num_rows($like_control_sql)) {
+            // Beğeniyi Kaldır
+            $unlike_sql = mysqli_query($connection_string, "DELETE FROM likes WHERE post_id = '$post_id' AND user_id = ".$_SESSION["user_id"]."");
+            
+            header("Location:index.php");
+        }
+        else{
+            // Beğen
+            $add_new_like_sql = mysqli_query($connection_string, "INSERT INTO likes(post_id, user_id) VALUES('".$post_id."', '".$_SESSION["user_id"]."')");
+            
+            if ($add_new_like_sql) {
+                header("Location:index.php");
+            }
         }
     }
 ?>

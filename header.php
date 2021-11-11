@@ -3,6 +3,12 @@
     if (isset($_SESSION["session_state"])) {
         require_once "./header.php";
 
+        if (isset($_GET["search_query"])) {
+            $search_query = $_GET["search_query"];
+        } else {
+            $search_query = ""; 
+        }
+
         $get_user_profile_info_sql = mysqli_query($connection_string, "SELECT * FROM users WHERE user_name = '".$_SESSION["user_name"]."' ");
         $get_user_profile_info = mysqli_fetch_array($get_user_profile_info_sql); ?>
 <header class="header-area">
@@ -12,8 +18,9 @@
                 <img class="header-logo" src="./img/instagram-title.png" alt="Instagram">
             </a>
             
-            <form action="#">
-                <input class="header-search" type="text" placeholder="Search">
+            <form method="GET" action="search.php">
+                <input name="search_query" class="header-search" type="text" placeholder="Search" autocomplete="false" value="<?=$search_query?>">
+                <input name="" class="header-search-btn" type="submit" value="">
             </form>
     
             <div class="button-group">
@@ -26,7 +33,7 @@
                 </a>
     
                 <div class="upload">
-                    <img src="./img/header-upload.png" alt="Upload" id="uploadBtn">
+                    <img src="./img/header-upload.png" alt="Upload" data-upload-btn>
                 </div>
 
                 <a class="header-btn" href="./reels.php">
@@ -100,11 +107,11 @@
                         <ul>
                             <li>
                                 <img class="option-logo" src="./img/dropdown-user.png" alt="">
-                                <a href="./profile.php?tab=post">Profile</a>
+                                <a href="./profile.php?tab=post&id=<?=$_SESSION["user_id"]?>">Profile</a>
                             </li>
                             <li>
                                 <img class="option-logo" src="./img/dropdown-bookmark.png" alt="">
-                                <a href="./profile.php?tab=saved">Saved</a>
+                                <a href="./profile.php?tab=saved&id=<?=$_SESSION["user_id"]?>">Saved</a>
                             </li>
                             <li>
                                 <img class="option-logo" src="./img/dropdown-setting.png" alt="">
@@ -124,8 +131,8 @@
         </div>
     </div>
 </header>
-<div class="upload-modal-overlay" id="uploadModal">
-    <img class="upload-modal-overlay-close-btn" src="./img/close.png" alt="" id="uploadModalCloseBtn">
+<div class="upload-modal-overlay" data-upload-modal>
+    <img class="upload-modal-overlay-close-btn" src="./img/close.png" alt="" data-upload-modal-close-btn>
     <div class="upload-modal">
         <label for="upload-post">
             <img src="./img/upload-post.png" alt="">
@@ -139,7 +146,6 @@
         </form>
     </div>
 </div>
-<script src="./js/upload-modal.js"></script>
 <?php }
     else {
         header("Location:login.php");
