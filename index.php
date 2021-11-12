@@ -159,7 +159,7 @@
                                     </div>
                                     <div class="post-user-info-group">
                                         <p class="post-area-username"><?=$fetch_following_info["user_name"]?></p>
-                                        <p class="post-area-postdate"><?=$fetch_following_info["full_name"]?></p>
+                                        <p class="post-area-fullname"><?=$fetch_following_info["full_name"]?></p>
                                     </div>  
                                 </a>
                             </div>
@@ -202,14 +202,14 @@
                                     if (mysqli_num_rows($saved_control_sql)) { ?>
                                         <form action="process.php" method="POST">
                                             <input type="text" value="<?=$fetch_following_info["post_id"]?>" name="post_id" hidden>
-                                            <input type="submit" name="post_saved_btn" value="saved">
-                                            <img class="post-ribbon" src="./img/fill-ribbon.png" alt="">
+                                            <input type="submit" name="post_saved_btn" class="post-saved fill" value="">
+                                            <!-- <img class="post-ribbon" src="./img/fill-ribbon.png" alt=""> -->
                                         </form>
                                     <?php } else { ?>
                                         <form action="process.php" method="POST">
                                             <input type="text" value="<?=$fetch_following_info["post_id"]?>" name="post_id" hidden>
-                                            <input type="submit" name="post_saved_btn" value="saved">
-                                            <img class="post-ribbon" src="./img/ribbon.png" alt="">
+                                            <input type="submit" name="post_saved_btn" class="post-saved void" value="">
+                                            <!-- <img class="post-ribbon" src="./img/ribbon.png" alt=""> -->
                                         </form>
                                 <?php } ?>
 
@@ -233,7 +233,7 @@
                         </div>
 
                         <div class="post-comment-area">
-                            <div class="post-user-comment">
+                            <div class="post-user-comment postDesc">
                                 <img src="<?=$fetch_following_info["profile_photo"]?>" alt=""> 
                                 <p class="post-desc"><b><?=$fetch_following_info["user_name"]?></b> <?=$fetch_following_info["post_description"]?></p>
                             </div>

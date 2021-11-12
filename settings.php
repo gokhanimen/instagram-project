@@ -149,7 +149,7 @@
                 </form>
                 <div class="change-password">
                     <div class="change-password-profile-info">
-                        <img class="change-password-profile-img" src="./img/header-zuckerberg.jpg" alt="">
+                        <img class="change-password-profile-img" src="<?=$get_user_profile_info["profile_photo"]?>" alt="">
 
                         <p class="change-password-profile-name"><?=$get_user_profile_info["user_name"]?></p>
                     </div>
